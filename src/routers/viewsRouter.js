@@ -1,25 +1,13 @@
 import { Router, json } from 'express'
+import prodctsRouter from './api/products.router.js'
+import cartsRouter from './api/carts.router.js'
+
 const router = Router()
-let products = []
 
-function getNextId() {
-  let ultimaposicion = 1;
-  if(products.length === 0){
-      return ultimaposicion;
-  }
-  ultimaposicion = products.at(-1).id + 1;
-  return ultimaposicion;
-}
+router.use('/api/products',prodctsRouter)
+router.use('/api/carts',cartsRouter)
 
-function validatecode(code){
-  let encontrado = products.find( prod => prod.code === code )
-  if(encontrado){
-    return true
-  }else{
-    return false
-  }
-}
-router.get('/realtimeproducts', async(req, res) => {
+/*router.get('/realtimeproducts', async(req, res) => {
     res.render('realTimeProducts', {})
     let io = req.io
     io.on('client:productedited', data => {
@@ -31,6 +19,9 @@ router.get('/chat', async(req, res) => {
 })
 
 router.get('/', (req, res) => {
+    res.render('home')
+})
+router.get('/api/products', (req, res) => {
     res.render('home')
 })
 
@@ -64,6 +55,6 @@ router.post('/realtimeproducts',async (req,res)=>{
     sendclientprod(io,products)
     res.redirect('/realtimeproducts')
   }
-})
+})*/
 
 export default router

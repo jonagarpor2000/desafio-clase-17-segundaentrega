@@ -6,5 +6,4 @@ import {connect} from 'mongoose'
         console.log('Connected to DB')
     }
 
-
 export {connectDB}
