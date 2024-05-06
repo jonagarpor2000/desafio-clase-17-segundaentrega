@@ -4,7 +4,6 @@ const router = Router()
 
 router.get('/',async(req,res)=>{
     const products = await productModel.find({})
-    console.log(`Tengo productos: ${products}`)
     res.send({status:"success",products: products})
 })
 router.get('/:uid',async(req,res)=>{
