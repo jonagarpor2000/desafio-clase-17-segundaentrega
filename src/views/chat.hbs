@@ -2,9 +2,10 @@
    <h1>Bienvendo al chat</h1>
    <ul id="messages-list">
       {{#each messages}}
-      {{#each this}}
-              <li>{{user}} escribio: {{message}}</li> 
-      {{/each}}
+          <li>
+      <strong>Usuario:</strong> {{this.user}}<br>
+      <strong>Mensaje:</strong> {{this.message}}
+    </li>
         {{/each}}
    </ul>
    <script src="/js/chat.js"></script>

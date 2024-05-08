@@ -1,10 +1,11 @@
 import {Router} from 'express'
-import { cartModel } from '../../dao/models/carts.models.js'
+import { CartMgDb } from '../../dao/cartMg_db.js'
 const router = Router()
 
+const CartService = new CartMgDb()
 router.get('/',async(req,res)=>{
-    const users = await cartModel.find({})
-    res.send({status:"success",users})
+    const carts = CartService.getCarts()
+    res.send({status:"success",carts})
 })
 router.get('/:uid',async(req,res)=>{
     res.send('get de carts')

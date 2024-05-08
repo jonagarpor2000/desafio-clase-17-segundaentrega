@@ -1,10 +1,13 @@
 import {Router} from 'express'
-import { messageModel } from '../../dao/models/chats.models.js'
+import {chatMgDB} from '../../dao/chatMg_db.js';
 const router = Router()
 
 
+const chat = new chatMgDB()
+
 router.get('/', async (req, res) => {
-    const messages = await messageModel.find({}).lean().exec();
+    const messages = await chat.getmessages()
+    console.log(messages)
     res.render('chat',{messages})
 })
 //Logica Websocket
