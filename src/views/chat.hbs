@@ -3,12 +3,11 @@
    <ul id="messages-list">
       {{#each messages}}
           <li>
-      <strong>Usuario:</strong> {{this.user}}<br>
-      <strong>Mensaje:</strong> {{this.message}}
+      <strong>Usuario:</strong> {{user}}<br>
+      <strong>Mensaje:</strong> {{message}}
     </li>
         {{/each}}
    </ul>
-   <script src="/js/chat.js"></script>
 </chat>
 
 {{!-- {{. El formato es:  {user:correoDelUsuario, 
