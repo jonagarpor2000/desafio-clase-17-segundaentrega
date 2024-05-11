@@ -1,0 +1,21 @@
+<h1>Welcome to Product List</h1>
+<div>
+{{#each products}}
+<p> Titulo: {{this.title}}</p>
+<p> Descripcion: {{this.description}}</p>
+<p> Precio: {{this.price}}</p>
+<p> Estado: {{this.status}}</p>
+<p> Thumbnail: {{this.thumbnail}}</p>
+<p> Stock: {{this.stock}}</p>
+<hr></hr>
+{{/each}}
+
+{{#if hasPrevPage}}
+    <a href="/api/products/products?numPage={{prevPage}}&limit={{limit}}">Anterior</a>
+{{/if}}
+<label>{{page}}</label>
+{{#if hasNextPage}}
+    <a href="/api/products/products?numPage={{nextPage}}&limit={{limit}}">Siguiente</a>
+{{/if}}
+</div>
+
