@@ -4,7 +4,7 @@ const router = Router()
 
 const CartService = new CartMgDb()
 router.get('/',async(req,res)=>{
-    const carts = CartService.getCarts()
+    const carts = await CartService.getCarts()
     res.send({status:"success",carts})
 })
 router.get('/:uid',async(req,res)=>{

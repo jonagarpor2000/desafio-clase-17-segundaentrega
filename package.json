@@ -1,7 +1,7 @@
 {
-  "name": "desafiocomp-clase15",
+  "name": "desafio-clase17",
   "version": "1.0.0",
-  "description": "Desafio clase 15",
+  "description": "Segunda entrega",
   "type": "module",
   "main": "src/app.js",
   "scripts": {
@@ -14,6 +14,7 @@
   "dependencies": {
     "express": "^4.19.2",
     "express-handlebars": "^6.0.7",
-    "socket.io": "^4.7.5"
+    "mongoose": "^8.3.4",
+    "mongoose-paginate-v2": "^1.8.0"
   }
 }
