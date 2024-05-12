@@ -4,8 +4,15 @@ class prodMg {
         this.model = productModel
     }
 getProducts = async (page,sort,limit) => {
-    const products = await this.model.paginate({},{limit:limit ?? 10,page:page ?? 1,lean:true})
-    return products;
+  page = page ?? 1
+  limit = limit ?? 10
+  sort = sort ?? 1
+  try {
+    const products = await this.model.paginate({},{limit:limit,page:page,lean:true})
+      return products;
+  } catch (error) {
+    console.log(`Error al cargar desde DB: ${error.message}`)
+  }  
   };
 
   getProductById = async(id) => {
