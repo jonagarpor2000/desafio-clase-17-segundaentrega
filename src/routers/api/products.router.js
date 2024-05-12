@@ -9,7 +9,6 @@ router.get('/',async(req,res)=>{
     let prods = await prodService.getProducts(numPage,sort,limit)
     let jsonresponse = {status:"success",payload: prods} 
     res.send(jsonresponse)
-    return jsonresponse
 })
 router.get('/:pid',async(req,res)=>{
     const {pid} = req.params
