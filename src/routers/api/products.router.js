@@ -26,6 +26,16 @@ router.post('/',async (req,res)=>{
         res.send({status:'Success',payload:result})
     }
 })
+router.put('/:pid',async(req,res)=>{
+    const {pid} = req.params
+    const {body} = req
+    const result = await prodService.updateProduct(pid,body)
+    if(result.status='error'){
+        res.send(result)
+    }else{
+        res.send({status:'Success',payload:result})
+    }
+})
 router.delete('/:pid', async(req,res)=>{
     const {pid} = req.params
     await prodService.deleteProduct(pid)
@@ -34,9 +44,7 @@ router.delete('/:pid', async(req,res)=>{
 /*router.get('/:uid',async(req,res)=>{
     res.send('get de productos')
 })
-router.put('/:uid',async(req,res)=>{
-    res.send('update de productos')
-})
+
 
 */
 

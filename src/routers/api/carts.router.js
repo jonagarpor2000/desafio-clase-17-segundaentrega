@@ -8,7 +8,17 @@ router.get('/',async(req,res)=>{
     res.send({status:"success",payload:carts})
 })
 router.get('/:uid',async(req,res)=>{
-    res.send('get de carts')
+    const {body} = req
+    await CartService.createCart()
+})  
+router.post('/',async (req,res)=>{
+    const {body} = req
+    const {cid,pid,quantity} = body
+    //let cartcreation = await CartService.createCart()
+    console.log(`Tengo: ${body.cid}`)
+    let result = await CartService.addProductToCart(cid,pid,quantity)
+    //console.log(`post: ${result}`)
+    res.send({status:'Success',payload:result})
 })
 router.put('/:uid',async(req,res)=>{
     res.send('update de cart')
@@ -16,10 +26,6 @@ router.put('/:uid',async(req,res)=>{
 router.delete('/:uid', async(req,res)=>{
     res.send('delete de users')
 })
-router.post('/',async (req,res)=>{
-    const {body} = req
-    const result = await cartModel.create(body)
-    res.send({status:'Success',payload:result})
-})
+
 
 export default router

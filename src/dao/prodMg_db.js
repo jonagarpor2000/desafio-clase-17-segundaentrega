@@ -33,7 +33,20 @@ getProducts = async (page,sort,limit) => {
 
   deleteProduct = async (id)=>{}
 
-  updateProduct = async (id,title, description, price, thumbnail,code,stock)=>{}
+  updateProduct = async (id,...prod)=>{
+    const {title,description,price,thumbnail,code,stock} = prod
+    console.log(prod)
+    try {
+      const updatedProduct = await this.model.findByIdAndUpdate( {_id:id},{title,description,price,thumbnail,code,stock},{new: true}); // Options explained below
+      if (!updatedProduct) {
+        return { error: 'Product not found' }; // Handle product not found case
+      }
+      return updatedProduct; // Return the updated product object
+    } catch (err) {
+      console.error(err);
+      return { error: 'Error updating product' }; // Handle errors
+    }
+  }
 
 }
 
