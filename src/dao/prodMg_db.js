@@ -6,12 +6,9 @@ class prodMg {
 getProducts = async (page,sort,limit,query) => {
   page = page ?? 1
   limit = limit ?? 10
+  sort = sort ?? 1
   try {
-    let products = await this.model.paginate({}).sort(
-      sort ? { price: sort === 'asc' ? 1 : -1 } :
-      {limit:limit,page:page,lean:true})
-    
-    
+    let products = await this.model.paginate({},{limit:limit,page:page,lean:true})    
     products.prevLink = `/products?numPage=${products.prevPage}&limit=${products.limit}`
     products.nextLink = `/products?numPage=${products.nextPage}&limit=${products.limit}`      
     return products;
