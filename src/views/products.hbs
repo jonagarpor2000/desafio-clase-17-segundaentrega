@@ -13,11 +13,11 @@
 {{/each}}
 
 {{#if products.hasPrevPage}}
-    <a href="/products?numPage={{products.prevPage}}&limit={{products.limit}}">Anterior</a>
+    <a href="{{products.prevLink}}">Anterior</a>
 {{/if}}
 <label>{{products.page}}</label>
 {{#if products.hasNextPage}}
-    <a href="/products?numPage={{products.nextPage}}&limit={{products.limit}}">Siguiente</a>
+    <a href="{{products.nextLink}}">Siguiente</a>
 {{/if}}
 </div>
 

@@ -14,10 +14,7 @@ router.get('/:uid',async(req,res)=>{
 router.post('/',async (req,res)=>{
     const {body} = req
     const {cid,pid,quantity} = body
-    //let cartcreation = await CartService.createCart()
-    console.log(`Tengo: ${body.cid}`)
     let result = await CartService.addProductToCart(cid,pid,quantity)
-    //console.log(`post: ${result}`)
     res.send({status:'Success',payload:result})
 })
 router.put('/:uid',async(req,res)=>{

@@ -5,10 +5,18 @@ const cartsCollection = 'carts'
 const cartsSchema = new Schema({
     products: [
       {
-        pid: { type: String, required: true }, 
-        quantity: { type: Number, min: 1, required: true },
-      },
+        product:{
+          type: Schema.Types.ObjectId,
+          ref: 'products',
+          required: true,
+        },
+        quantity: { type: Number, min: 1, required: true }
+      }
     ],
   });
+
+cartsSchema.pre('findOne',function(){
+  this.populate('products.product')
+})
 
 export const cartModel = model(cartsCollection,cartsSchema)

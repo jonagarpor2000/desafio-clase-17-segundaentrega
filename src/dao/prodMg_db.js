@@ -3,13 +3,18 @@ class prodMg {
     constructor() {
         this.model = productModel
     }
-getProducts = async (page,sort,limit) => {
+getProducts = async (page,sort,limit,query) => {
   page = page ?? 1
   limit = limit ?? 10
-  sort = sort ?? 1
   try {
-    const products = await this.model.paginate({},{limit:limit,page:page,lean:true})
-      return products;
+    let products = await this.model.paginate({}).sort(
+      sort ? { price: sort === 'asc' ? 1 : -1 } :
+      {limit:limit,page:page,lean:true})
+    
+    
+    products.prevLink = `/products?numPage=${products.prevPage}&limit=${products.limit}`
+    products.nextLink = `/products?numPage=${products.nextPage}&limit=${products.limit}`      
+    return products;
   } catch (error) {
     console.log(`Error al cargar desde DB: ${error.message}`)
   }  
