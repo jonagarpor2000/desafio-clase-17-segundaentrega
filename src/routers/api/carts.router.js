@@ -20,8 +20,16 @@ router.post('/',async (req,res)=>{
 router.put('/:uid',async(req,res)=>{
     res.send('update de cart')
 })
-router.delete('/:uid', async(req,res)=>{
-    res.send('delete de users')
+router.delete('/:cid/products/:pid', async(req,res)=>{
+    const {cid,pid} = req.params
+    let result = await CartService.deleteProductOnCart(cid,pid)
+    if(result instanceof Error){
+        res.status(404).send({status:'Error',payload:result.message})
+    }else{
+        res.send({status:'Success',payload:result})
+    }
+    
+    
 })
 
 

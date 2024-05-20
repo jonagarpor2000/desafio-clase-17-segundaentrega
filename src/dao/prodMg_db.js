@@ -4,11 +4,13 @@ class prodMg {
         this.model = productModel
     }
 getProducts = async (page,sort,limit,query) => {
-  page = page ?? 1
-  limit = limit ?? 10
-  sort = sort ?? 1
+  page = page != "undefined" ? page : 1;
+  limit = limit != "undefined" ? limit : 10;
+  console.log (`Ordenado recibido: ${sort}`)
+  sort = sort === "asc" ? 1 : sort === "desc" ? -1 : 0;
+  console.log (`Ordenado por: ${sort}`)
   try {
-    let products = await this.model.paginate({},{limit:limit,page:page,lean:true})    
+    let products = await this.model.paginate({},{limit:limit,page:page,sort: {price: sort},lean:true})    
     products.prevLink = `/products?numPage=${products.prevPage}&limit=${products.limit}`
     products.nextLink = `/products?numPage=${products.nextPage}&limit=${products.limit}`      
     return products;
@@ -33,20 +35,27 @@ getProducts = async (page,sort,limit,query) => {
     
   }
 
-  deleteProduct = async (id)=>{}
+  deleteProduct = async (id)=>{
+    const product = await this.getProductById(id)
+    if(!product){
+        return ({status:'error',payload:'Product not found'})
+    }else{
+        return await this.model.findByIdAndDelete(id)
+    }
+  }
 
   updateProduct = async (id,...prod)=>{
-    const {title,description,price,thumbnail,code,stock} = prod
+    const {title,description,price,status,thumbnail,code,stock} = prod
     console.log(prod)
     try {
-      const updatedProduct = await this.model.findByIdAndUpdate( {_id:id},{title,description,price,thumbnail,code,stock},{new: true}); // Options explained below
+      const updatedProduct = await this.model.findByIdAndUpdate( {_id:id},{title,description,price,status,thumbnail,thumbnail,code,stock},{new: true});
       if (!updatedProduct) {
-        return { error: 'Product not found' }; // Handle product not found case
+        return { status:'error',payload:'Product not found' };
       }
-      return updatedProduct; // Return the updated product object
+      return updatedProduct; 
     } catch (err) {
       console.error(err);
-      return { error: 'Error updating product' }; // Handle errors
+      return { status:'error',payload:'Error updating product' };
     }
   }
 

@@ -27,6 +27,17 @@ class CartMgDb {
             return result
         
     }
+
+    deleteProductOnCart = async (cid, pid) => {
+        let cart = await this.getCartById(cid)
+        if(!cart){     
+            return Error(`The cart doesn't exists`)
+        }else{
+            let result = await this.model.findByIdAndUpdate({_id:cid},{$pull:{products:{pid}}},{new: true})
+            return result
+        }
+
+    }
 }
 
 export {CartMgDb}
