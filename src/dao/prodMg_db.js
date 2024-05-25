@@ -55,11 +55,15 @@ getProducts = async (page,sort,limit,query) => {
     }
   }
 
-  updateProduct = async (id,...prod)=>{
-    const {title,description,price,status,thumbnail,code,stock} = prod
+  updateProduct = async (id,prod)=>{
+    const {title,description,price,status,category,thumbnail,code,stock} = prod
     console.log(prod)
     try {
-      const updatedProduct = await this.model.findByIdAndUpdate( {_id:id},{title,description,price,status,thumbnail,thumbnail,code,stock},{new: true});
+      const updatedProduct = await this.model.findOneAndUpdate(
+        { _id: id },
+        { $set: { title, description, price, status, category, thumbnail, code, stock } },
+        { new: true }
+      );
       if (!updatedProduct) {
         return { status:'error',payload:'Product not found' };
       }
