@@ -7,7 +7,6 @@ class prodMg {
 getProducts = async (page,sort,limit,query) => {
   page = page != undefined ? page : 1;
   limit = limit != undefined ? limit : 10;
-  console.log (`Ordenado recibido: ${sort}`)
   sort = sort === "asc" ? 1 : sort === "desc" ? -1 : 0;
   let sortsentence = {} 
   if (sort===0){
@@ -17,16 +16,13 @@ getProducts = async (page,sort,limit,query) => {
   }
  
 
- 
-
-  console.log (`Ordenado por: ${sort} y con limite ${limit}, page: ${page}, \n sortsent: ${JSON.stringify(sortsentence)}`)
   try {
-    let products = await this.model.paginate({},{limit:limit,page:page,sort:sortsentence,lean:true})    
+    let products = await this.model.paginate({category:query},{limit:limit,page:page,sort:sortsentence,lean:true})    
     products.prevLink = `/products?numPage=${products.prevPage}&limit=${products.limit}`
     products.nextLink = `/products?numPage=${products.nextPage}&limit=${products.limit}`      
     return products;
   } catch (error) {
-    console.log(`Error al cargar desde DB: ${error.message}`)
+    return Error(error)
   }  
   };
 

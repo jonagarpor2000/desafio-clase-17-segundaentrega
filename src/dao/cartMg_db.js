@@ -7,12 +7,23 @@ class CartMgDb {
         return await this.model.find({})
     }
 
-    updateCart = async (cid,...rest) => {
-        return await this.model.findByIdAndUpdate({_id:cid},...rest)
+    updateCart = async (cid,pid) => {
+        let result = await this.model.findOneAndUpdate(
+            {_id:cid, 'products.product': pid},
+        {$inc:{'products.$.quantity':1}},
+        {new:true}
+    )
+        return 
     }
 
-    getCartById = async (id) => {
-        return await this.model.findOne({_id:id})
+    getCartById = async (cid) => {
+        try {
+            return await this.model.findOne({_id:cid})
+            //.populate([{path: `product`,strictPopulate: false}])
+        } catch (error) {
+            return Error(error)
+        }
+    
     }
     createCart = async () => await this.model.create({products: []})
 
@@ -22,7 +33,10 @@ class CartMgDb {
             
             cid = (await this.createCart())._id
         }
-            let result = await this.model.findByIdAndUpdate({_id:cid},{$push:{products:{pid,quantity}}})
+            let result = await this.model.findByIdAndUpdate({_id:cid},
+                {$push:
+                    {products:{product: pid,quantity}}
+                },{ new: true })
             console.log(result)  
             return result
         
@@ -33,7 +47,12 @@ class CartMgDb {
         if(!cart){     
             return Error(`The cart doesn't exists`)
         }else{
-            let result = await this.model.findByIdAndUpdate({_id:cid},{$pull:{products:{pid}}},{new: true})
+            console.log(`Carrito: ${cid} y producto: ${pid}`)
+            let result = await this.model.findOneAndUpdate(
+                { _id: cid },
+                { $pull: { products: { _id: pid  } } },
+                { new: true }
+              );
             return result
         }
 

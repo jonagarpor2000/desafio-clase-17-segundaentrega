@@ -6,7 +6,7 @@ const router = Router()
 const prodService = new prodMg()
 router.get('/',async(req,res)=>{
     let {numPage,limit,query,sort} = req.query
-    let prods = await prodService.getProducts(numPage,sort,limit)
+    let prods = await prodService.getProducts(numPage,sort,limit,query)
     let jsonresponse = {status:"success",payload: prods} 
     res.send(jsonresponse)
 })
