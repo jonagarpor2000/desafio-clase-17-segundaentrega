@@ -22,8 +22,14 @@ router.post('/',async (req,res)=>{
     let result = await CartService.addProductToCart(cid,pid,quantity)
     res.send({status:'Success',payload:result})
 })
-router.put('/:uid',async(req,res)=>{
-    res.send('update de cart')
+router.put('/:cid',async(req,res)=>{
+    const {cid} = req.params
+    let result = await CartService.updateCart(cid)
+    if(result instanceof Error){
+        res.status(404).send({status:'Error',payload:result.message})
+    }else{
+        res.send({status:'Success',payload:result})
+    }
 })
 router.delete('/:cid/products/:pid', async(req,res)=>{
     const {cid,pid} = req.params
@@ -35,6 +41,16 @@ router.delete('/:cid/products/:pid', async(req,res)=>{
     }
     
     
+})
+
+router.delete('/:cid', async(req,res)=>{
+    const {cid} = req.params
+    let result = await CartService.emptyCart(cid)
+    if(result instanceof Error){
+        res.status(404).send({status:'Error',payload:result.message})
+    }else{
+        res.send({status:'Success',payload:result})
+    }
 })
 
 

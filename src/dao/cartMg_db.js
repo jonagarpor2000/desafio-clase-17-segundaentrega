@@ -8,12 +8,28 @@ class CartMgDb {
     }
 
     updateCart = async (cid,pid) => {
-        let result = await this.model.findOneAndUpdate(
+        let incremental = await this.model.findOneAndUpdate(
             {_id:cid, 'products.product': pid},
         {$inc:{'products.$.quantity':1}},
         {new:true}
     )
-        return 
+        return incremental
+    }
+    changeCartQuantity = async (cid,pid) => {
+        try {
+            const updatedCart = await this.model.findOneAndUpdate(
+              { _id: cid },
+              { $set: { product: {pid}, quantity } },
+              { new: true }
+            );
+            if (!updatedCart) {
+              return Error('Cart not found') ;
+            }
+            return updatedCart; 
+          } catch (err) {
+            console.error(err);
+            return Error('Error updating product') ;
+          }
     }
 
     getCartById = async (cid) => {
@@ -56,6 +72,22 @@ class CartMgDb {
             return result
         }
 
+    }
+    emptyCart = async (cid) => {
+        try {
+            const updatedCart = await this.model.findOneAndUpdate(
+              { _id: cid },
+              { $set: { products:[]} },
+              { new: true }
+            );
+            if (!updatedCart) {
+              return Error('Cart not found') ;
+            }
+            return updatedCart; 
+          } catch (err) {
+            console.error(err);
+            return Error('Error deleting product') ;
+          }
     }
 }
 
