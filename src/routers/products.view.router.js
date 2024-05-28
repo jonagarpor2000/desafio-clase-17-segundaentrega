@@ -5,7 +5,6 @@ const router = Router()
 const product = new prodMg()
 router.get('/',async(req,res)=>{
     let {numPage,limit,query,sort} = req.query
-    console.log(`Tengo pag: ${numPage} y ${limit}`)
     try {
         const prods = await product.getProducts(numPage,sort,limit,query)
         console.log(prods)
