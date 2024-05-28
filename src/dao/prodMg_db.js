@@ -8,9 +8,10 @@ getProducts = async (page,sort,limit,query) => {
   page = page != undefined ? page : 1;
   limit = limit != undefined ? limit : 10;
   sort = sort === "asc" ? 1 : sort === "desc" ? -1 : 0;
-  let sortsentence = {} 
+  console.log(`Tengo ${sort} como orden`)
+  let sortsentence
   if (sort===0){
-    sortsentence = ""
+    sortsentence = {}
   }else{
     sortsentence = {price: sort}
   }
