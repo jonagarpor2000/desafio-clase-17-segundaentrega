@@ -7,15 +7,16 @@ class CartMgDb {
         return await this.model.find({})
     }
 
-    updateCart = async (cid,pid) => {
-        let incremental = await this.model.findOneAndUpdate(
+    changeCartQuantity = async (cid,pid) => {
+        console.log(`Tengo ${cid} y ${pid}`)
+        let incremental = await this.model.findAndUpdate(
             {_id:cid, 'products.product': pid},
         {$inc:{'products.$.quantity':1}},
         {new:true}
     )
         return incremental
     }
-    changeCartQuantity = async (cid,pid) => {
+    updateCart = async (cid,pid) => {
         try {
             const updatedCart = await this.model.findOneAndUpdate(
               { _id: cid },
@@ -35,7 +36,6 @@ class CartMgDb {
     getCartById = async (cid) => {
         try {
             return await this.model.findOne({_id:cid})
-            //.populate([{path: `product`,strictPopulate: false}])
         } catch (error) {
             return Error(error)
         }

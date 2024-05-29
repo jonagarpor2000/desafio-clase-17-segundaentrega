@@ -13,31 +13,44 @@ router.get('/:cid',async(req,res)=>{
     if(result instanceof Error){
         res.status(404).send({status:'Error',payload:result.message})
     }else{
-        res.send({status:'Success',payload:result})
+        res.status(200).send({status:'Success',payload:result})
     }
 })  
 router.post('/',async (req,res)=>{
     const {body} = req
     const {cid,pid,quantity} = body
     let result = await CartService.addProductToCart(cid,pid,quantity)
-    res.send({status:'Success',payload:result})
+    res.status(200).send({status:'Success',payload:result})
 })
+
+router.put(':cid/products/:pid',async(req,res)=>{
+    const {cid,pid} = req.params
+    let result = await CartService.changeCartQuantity(cid,pid)
+    if(result instanceof Error){
+        console.log('Soy un error')
+        res.status(404).send({status:'Error',payload:result.message})
+    }else{
+        res.status(200).send({status:'Success',payload:result})
+    }
+})
+
 router.put('/:cid',async(req,res)=>{
     const {cid} = req.params
     let result = await CartService.updateCart(cid)
     if(result instanceof Error){
         res.status(404).send({status:'Error',payload:result.message})
     }else{
-        res.send({status:'Success',payload:result})
+        res.status(200).send({status:'Success',payload:result})
     }
 })
+
 router.delete('/:cid/products/:pid', async(req,res)=>{
     const {cid,pid} = req.params
     let result = await CartService.deleteProductOnCart(cid,pid)
     if(result instanceof Error){
         res.status(404).send({status:'Error',payload:result.message})
     }else{
-        res.send({status:'Success',payload:result})
+        res.status(200).send({status:'Success',payload:result})
     }
     
     
@@ -49,7 +62,7 @@ router.delete('/:cid', async(req,res)=>{
     if(result instanceof Error){
         res.status(404).send({status:'Error',payload:result.message})
     }else{
-        res.send({status:'Success',payload:result})
+        res.status(200).send({status:'Success',payload:result})
     }
 })
 

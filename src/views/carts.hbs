@@ -1,18 +1,22 @@
 <h1>Welcome to Cart List</h1>
 <div>
-{{#each carts}}
-<p> Titulo: {{this.title}}</p>
-<p> Descripcion: {{this.description}}</p>
-<p> Precio: {{this.price}}</p>
-<p> Estado: {{this.status}}</p>
-<p> Thumbnail: {{this.thumbnail}}</p>
-<p> Stock: {{this.stock}}</p>
+
+<h1>Cart Details</h1>
+<ul>
+{{#each cart}}
+  {{#each products}}
+    <li>
+      Quantity: {{this.quantity}}
+      </li>
+  {{/each}}
+</ul>
+
+{{#each products}}
+  <h2>Product {{@index }}</h2>
+  <ul>
+    <li>Product ID: {{_id}}</li>
+    </ul>
 {{/each}}
-{{#if hasPrevPage}}
-    <a href="/api/products/products?page={{prevPage}}&limit={{limit}}">Anterior</a>
-{{/if}}
-<label>{{page}}</label>
-{{#if hasNextPage}}
-    <a href="/api/products/products?page={{nextPage}}&limit={{limit}}">Siguiente</a>
-{{/if}}
+{{/each}}
+
 </div>
