@@ -7,26 +7,29 @@ class CartMgDb {
         return await this.model.find({})
     }
 
-    changeCartQuantity = async (cid,pid) => {
-        console.log(`Tengo ${cid} y ${pid}`)
-        let incremental = await this.model.findAndUpdate(
-            {_id:cid, 'products.product': pid},
-        {$inc:{'products.$.quantity':1}},
-        {new:true}
-    )
-        return incremental
+    changeProductCartQuantity = async (cid,pid,quantity) => {
+        try {
+        const updatedCart = await this.model.findOneAndUpdate(
+            { _id: cid},
+            { $set: { product: pid, quantity } },
+            { new: true }
+            );
+            if (!updatedCart) {
+            return Error('Cart not found') ;
+            }
+            return updatedCart;
+        } catch (error) {
+            return Error(`Error al actualizar carrito ${error.message}`)
+        }
     }
     updateCart = async (cid,pid) => {
         try {
-            const updatedCart = await this.model.findOneAndUpdate(
-              { _id: cid },
-              { $set: { product: {pid}, quantity } },
-              { new: true }
-            );
-            if (!updatedCart) {
-              return Error('Cart not found') ;
-            }
-            return updatedCart; 
+ 
+            let incremental = await this.model.findAndUpdate(
+                {_id:cid, 'products.product': pid},
+            {$inc:{'products.$.quantity':1}},
+            {new:true})
+            return incremental
           } catch (err) {
             console.error(err);
             return Error('Error updating product') ;
@@ -53,7 +56,6 @@ class CartMgDb {
                 {$push:
                     {products:{product: pid,quantity}}
                 },{ new: true })
-            console.log(result)  
             return result
         
     }
@@ -63,10 +65,9 @@ class CartMgDb {
         if(!cart){     
             return Error(`The cart doesn't exists`)
         }else{
-            console.log(`Carrito: ${cid} y producto: ${pid}`)
             let result = await this.model.findOneAndUpdate(
                 { _id: cid },
-                { $pull: { products: { _id: pid  } } },
+                { $pull: { products: { product: pid  } } },
                 { new: true }
               );
             return result

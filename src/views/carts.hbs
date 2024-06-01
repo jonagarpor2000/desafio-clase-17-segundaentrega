@@ -6,15 +6,15 @@
 {{#each cart}}
   {{#each products}}
     <li>
-      Quantity: {{this.quantity}}
+      Quantity: {{products.quantity}}
       </li>
   {{/each}}
 </ul>
 
 {{#each products}}
-  <h2>Product {{@index }}</h2>
+  <h2>Product {{@index}}</h2>
   <ul>
-    <li>Product ID: {{_id}}</li>
+    <li>Product ID: </li>
     </ul>
 {{/each}}
 {{/each}}
